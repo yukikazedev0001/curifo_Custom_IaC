@@ -1,0 +1,12 @@
+#行頭で全ファイルを無視し、ホワイトリスト形式で管理する。
+/*
+#以下、ホワイトリスト
+!/src
+!/src/**
+!/README.md
+!/service_logo.JPG
+!/package-lock.json
+!/package.json
+!/.gitignore
+
+ 
