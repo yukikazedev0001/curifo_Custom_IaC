@@ -8,7 +8,8 @@
   "main": "main.ts",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "main": "node /Users/makaurure/projects/curifo_Custom_IaC/src/main.ts"
+    "main": "npx tsx src/main.ts",
+    "generate-aa": "npx tsx src/ascii_generator.ts"
   },
   
   

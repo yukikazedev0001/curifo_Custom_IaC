@@ -8,5 +8,6 @@
 !/package-lock.json
 !/package.json
 !/.gitignore
+!/run.sh
 
  
