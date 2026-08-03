@@ -46,11 +46,12 @@ ${yellow}██████╗  ██╗  ██╗ ███████╗ �
 /**
  * メイン操作メニューを描画します
  */
-export function printMenu(): void {
+export function printMenu(currentRegion: string = "未設定"): void {
   console.log(`${bold}操作メニューを選択してください:${reset}`);
   console.log(`  ${cyan}[1]${reset} S3 バケット一覧を取得 (AWS SDK)`);
   console.log(`  ${cyan}[2]${reset} システムステータスを確認`);
-  console.log(`  ${cyan}[3]${reset} 画面をクリアして再描画`);
+  console.log(`  ${cyan}[3]${reset} AWS リージョン変更 [現在: ${yellow}${currentRegion}${reset}]`);
+  console.log(`  ${cyan}[4]${reset} 画面をクリアして再描画`);
   console.log(`  ${red}[q]${reset} アプリを終了`);
   console.log();
 }
@@ -62,7 +63,9 @@ export function printStatusBox(title: string, message: string): void {
   const boxBorder = `${cyan}+-----------------------------------------------------------------------------------------------+${reset}`;
   console.log(boxBorder);
   console.log(`| ${bold}${title}${reset}`);
-  console.log(`| ${message}`);
+  message.split('\n').forEach((line) => {
+    console.log(`| ${line}`);
+  });
   console.log(boxBorder);
   console.log();
 }
