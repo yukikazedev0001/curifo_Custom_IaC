@@ -10,5 +10,11 @@
 !/.gitignore
 !/run.sh
 !/tsconfig.json
-
- 
+!/csf_iac_v1/
+!/csf_iac_v1/src/**
+!/csf_iac_v1/package.json
+!/csf_iac_v1/package-lock.json
+!/csf_iac_v1/index.html
+!/csf_iac_v1/vite.config.ts
+!/csf_iac_v1/tsconfig*.json
+!/csf_iac_v1/.gitignore
