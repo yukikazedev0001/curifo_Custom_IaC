@@ -19,3 +19,7 @@
 !/csf_iac_v1/tsconfig*.json
 !/csf_iac_v1/.gitignore
 !/csf_iac_v1/public/**
+
+#以下、ブラックリスト
+/csf_iac_v1/src/data/curifoPreset.ts
+**/curifoPreset.ts

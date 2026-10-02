@@ -27,3 +27,7 @@ dist-ssr
 /src/assets
 /public
 !/public/favicon.svg
+
+# 機密プリセットデータ
+/src/data/curifoPreset.ts
+curifoPreset.ts
