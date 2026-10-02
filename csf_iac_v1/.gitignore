@@ -26,3 +26,4 @@ dist-ssr
 #large files
 /src/assets
 /public
+!/public/favicon.svg
