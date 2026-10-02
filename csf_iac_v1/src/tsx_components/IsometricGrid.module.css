@@ -26,8 +26,8 @@
 }
 
 .controlBtn {
-  width: 30px;
-  height: 30px;
+  width: 32px;
+  height: 32px;
   border: none;
   background: transparent;
   border-radius: 6px;
@@ -37,6 +37,8 @@
   justify-content: center;
   color: var(--text-secondary);
   font-weight: 600;
+  font-size: 13px;
+  transition: all 0.15s ease;
 }
 
 .controlBtn:hover {
@@ -44,10 +46,23 @@
   color: var(--text-primary);
 }
 
+.controlBtnActive {
+  background: #ecfdf5;
+  color: var(--accent-mint);
+  font-weight: 700;
+}
+
+.divider {
+  width: 1px;
+  height: 20px;
+  background: var(--border-color);
+  align-self: center;
+  margin: 0 2px;
+}
+
 .isometricStage {
-  transform: rotateX(60deg) rotateZ(-45deg);
   transform-style: preserve-3d;
-  transition: transform 0.3s ease;
+  transition: transform 0.25s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
 .gridBoard {
@@ -112,3 +127,38 @@
   opacity: 0.4;
   transform: scale(0.95);
 }
+
+/* ライン接続レイヤー */
+.connectionLayer {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+  transform: translateZ(3px);
+}
+
+.connectionLine {
+  stroke-dasharray: 6 3;
+  animation: linePulse 1.5s linear infinite;
+  transition: stroke 0.2s, stroke-width 0.2s, opacity 0.2s;
+}
+
+.connectionLineDimmed {
+  opacity: 0.25;
+}
+
+.connectionLineActive {
+  opacity: 1;
+  stroke-width: 3.5px !important;
+  filter: drop-shadow(0 0 6px rgba(16, 185, 129, 0.6));
+}
+
+@keyframes linePulse {
+  to {
+    stroke-dashoffset: -18;
+  }
+}
+

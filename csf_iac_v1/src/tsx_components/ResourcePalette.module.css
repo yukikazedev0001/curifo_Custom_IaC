@@ -59,10 +59,12 @@
   color: #ffffff;
 }
 
-.iconEc2 { background-color: #f97316; }
-.iconLambda { background-color: #eab308; }
-.iconRds { background-color: #3b82f6; }
 .iconS3 { background-color: #10b981; }
+.iconCloudfront { background-color: #8b5cf6; }
+.iconApigateway { background-color: #ec4899; }
+.iconLambda { background-color: #f59e0b; }
+.iconDynamodb { background-color: #3b82f6; }
+.iconCognito { background-color: #f43f5e; }
 
 .resourceInfo {
   display: flex;

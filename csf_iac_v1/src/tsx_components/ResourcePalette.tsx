@@ -1,18 +1,28 @@
 import styles from './ResourcePalette.module.css';
 
+export type ServerlessResourceType =
+  | 's3'
+  | 'cloudfront'
+  | 'apigateway'
+  | 'lambda'
+  | 'dynamodb'
+  | 'cognito';
+
 interface ResourceItem {
-  id: string;
+  id: ServerlessResourceType;
   name: string;
   desc: string;
   iconClass: string;
   label: string;
 }
 
-const RESOURCES: ResourceItem[] = [
-  { id: 'ec2', name: 'EC2 Instance', desc: '仮想サーバー', iconClass: styles.iconEc2, label: 'EC2' },
-  { id: 'lambda', name: 'Lambda', desc: 'サーバーレス関数', iconClass: styles.iconLambda, label: 'λ' },
-  { id: 'rds', name: 'RDS Database', desc: 'リレーショナルDB', iconClass: styles.iconRds, label: 'DB' },
-  { id: 's3', name: 'S3 Bucket', desc: 'オブジェクトストレージ', iconClass: styles.iconS3, label: 'S3' },
+const SERVERLESS_SPA_RESOURCES: ResourceItem[] = [
+  { id: 's3', name: 'S3 Bucket', desc: 'SPA静的ホスティング', iconClass: styles.iconS3, label: 'S3' },
+  { id: 'cloudfront', name: 'CloudFront', desc: 'CDN・エッジ配信', iconClass: styles.iconCloudfront, label: 'CDN' },
+  { id: 'apigateway', name: 'API Gateway', desc: 'REST / HTTP API', iconClass: styles.iconApigateway, label: 'API' },
+  { id: 'lambda', name: 'Lambda Function', desc: 'APIビジネスロジック', iconClass: styles.iconLambda, label: 'λ' },
+  { id: 'dynamodb', name: 'DynamoDB', desc: 'NoSQLデータベース', iconClass: styles.iconDynamodb, label: 'DDB' },
+  { id: 'cognito', name: 'Cognito', desc: 'ユーザー認証・JWT', iconClass: styles.iconCognito, label: 'AUTH' },
 ];
 
 interface ResourcePaletteProps {
@@ -23,9 +33,9 @@ interface ResourcePaletteProps {
 function ResourcePalette({ selectedTool, onSelectTool }: ResourcePaletteProps) {
   return (
     <aside className={styles.palette}>
-      <div className={styles.panelTitle}>AWS リソース建築</div>
+      <div className={styles.panelTitle}>サーバーレス SPA 建築</div>
       <div className={styles.resourceList}>
-        {RESOURCES.map((r) => {
+        {SERVERLESS_SPA_RESOURCES.map((r) => {
           const isSelected = selectedTool === r.id;
           return (
             <div
@@ -50,8 +60,8 @@ function ResourcePalette({ selectedTool, onSelectTool }: ResourcePaletteProps) {
       </div>
 
       <div className={styles.guideBox}>
-        💡 <strong>操作方法:</strong><br />
-        リソースを選択してグリッドの土地をクリックすると配置できます。
+        💡 <strong>サーバーレスSPA構成:</strong><br />
+        CloudFront + S3 で画面配信、API Gateway + Lambda + DynamoDB でバックエンドを構築できます。
       </div>
     </aside>
   );

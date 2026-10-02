@@ -1,7 +1,8 @@
 import styles from './ServerRack.module.css';
+import type { ServerlessResourceType } from './ResourcePalette';
 
 interface ServerRackProps {
-  type: 'ec2' | 'lambda' | 'rds' | 's3';
+  type: ServerlessResourceType;
   name: string;
   draggable?: boolean;
   onDragStart?: (e: React.DragEvent) => void;
@@ -10,29 +11,42 @@ interface ServerRackProps {
 }
 
 function ServerRack({ type, name, draggable, onDragStart, onDragEnd, isDragging }: ServerRackProps) {
-  // リソースごとの高さ（タイルから上に伸ばすZ距離）とスロット数
+  // サーバーレスSPAリソースごとの高さ（Z押し出し距離）、スロット数、ラベル
   const config = {
-    ec2: {
-      height: 64, // 64px 押し出し
-      slots: 4,
-      label: 'EC2',
-    },
-    lambda: {
-      height: 40, // 40px 押し出し（低め）
-      slots: 2,
-      label: 'λ',
-    },
-    rds: {
-      height: 80, // 80px 押し出し（高め）
-      slots: 5,
-      label: 'RDS',
-    },
     s3: {
       height: 52, // 52px 押し出し
       slots: 3,
       label: 'S3',
     },
-  }[type];
+    cloudfront: {
+      height: 76, // 76px 押し出し（エッジ配信タワー）
+      slots: 5,
+      label: 'CDN',
+    },
+    apigateway: {
+      height: 60, // 60px 押し出し（APIルーター）
+      slots: 4,
+      label: 'API',
+    },
+    lambda: {
+      height: 42, // 42px 押し出し（軽量ファンクション）
+      slots: 2,
+      label: 'λ',
+    },
+    dynamodb: {
+      height: 82, // 82px 押し出し（大容量NoSQLタワー）
+      slots: 5,
+      label: 'DDB',
+    },
+    cognito: {
+      height: 50, // 50px 押し出し（認証ゲート）
+      slots: 3,
+      label: 'AUTH',
+    },
+    // フォールバック
+    ec2: { height: 64, slots: 4, label: 'EC2' },
+    rds: { height: 80, slots: 5, label: 'RDS' },
+  }[type] || { height: 50, slots: 3, label: type.toUpperCase() };
 
   const h = config.height;
 
@@ -59,7 +73,7 @@ function ServerRack({ type, name, draggable, onDragStart, onDragEnd, isDragging 
         </div>
       </div>
 
-      {/* 2. 手前側面 (Front Face): タイル手前辺から高さ h 分立ち上げる */}
+      {/* 2. 手前右側面 (Front Face): タイル手前辺 Y=76 から上空 +Z へ直立 */}
       <div
         className={`${styles.face} ${styles.faceFront}`}
         style={{ height: `${h}px` }}
@@ -77,7 +91,7 @@ function ServerRack({ type, name, draggable, onDragStart, onDragEnd, isDragging 
         </div>
       </div>
 
-      {/* 3. 右側面 (Right Face): タイル右辺から高さ h 分立ち上げる */}
+      {/* 3. 奥右面 (Right Face) */}
       <div
         className={`${styles.face} ${styles.faceRight}`}
         style={{ width: `${h}px` }}
@@ -87,7 +101,7 @@ function ServerRack({ type, name, draggable, onDragStart, onDragEnd, isDragging 
         ))}
       </div>
 
-      {/* 4. 左側面 (Left Face) */}
+      {/* 4. 手前左側面 (Left Face): タイル左辺 X=0 から上空 +Z へ直立 */}
       <div
         className={`${styles.face} ${styles.faceLeft}`}
         style={{ width: `${h}px` }}
@@ -97,7 +111,7 @@ function ServerRack({ type, name, draggable, onDragStart, onDragEnd, isDragging 
         ))}
       </div>
 
-      {/* 5. 奥面 (Back Face) */}
+      {/* 5. 奥左面 (Back Face) */}
       <div
         className={`${styles.face} ${styles.faceBack}`}
         style={{ height: `${h}px` }}
