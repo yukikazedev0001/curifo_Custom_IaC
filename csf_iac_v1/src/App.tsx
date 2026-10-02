@@ -42,6 +42,49 @@ function App() {
     }
   };
 
+  // リソース移動（ドラッグ＆ドロップ）
+  const handleMoveResource = (resourceId: string, newTileIndex: number) => {
+    const targetOccupied = resources.find((r) => r.tileIndex === newTileIndex);
+    const moving = resources.find((r) => r.id === resourceId);
+    if (!moving) return;
+
+    if (targetOccupied && targetOccupied.id !== resourceId) {
+      // すでに別ラックがある場合は場所をスワップ（入れ替え）
+      const oldTile = moving.tileIndex;
+      setResources((prev) =>
+        prev.map((r) => {
+          if (r.id === resourceId) return { ...r, tileIndex: newTileIndex };
+          if (r.id === targetOccupied.id) return { ...r, tileIndex: oldTile };
+          return r;
+        })
+      );
+    } else {
+      // 空いている土地へ移動
+      setResources((prev) =>
+        prev.map((r) => (r.id === resourceId ? { ...r, tileIndex: newTileIndex } : r))
+      );
+    }
+    setSelectedTile(newTileIndex);
+  };
+
+  // パレットから土地へのドラッグ＆ドロップ直接配置
+  const handlePlaceResource = (
+    type: 'ec2' | 'lambda' | 'rds' | 's3',
+    newTileIndex: number
+  ) => {
+    const existing = resources.find((r) => r.tileIndex === newTileIndex);
+    if (!existing) {
+      const newResource: PlacedResource = {
+        id: `res-${Date.now()}`,
+        tileIndex: newTileIndex,
+        type,
+        name: `${type.toUpperCase()}-${Math.floor(Math.random() * 900 + 100)}`,
+      };
+      setResources((prev) => [...prev, newResource]);
+      setSelectedTile(newTileIndex);
+    }
+  };
+
   // リソース削除
   const handleRemoveResource = (id: string) => {
     setResources((prev) => prev.filter((r) => r.id !== id));
@@ -61,6 +104,8 @@ function App() {
           resources={resources}
           selectedTile={selectedTile}
           onTileClick={handleTileClick}
+          onMoveResource={handleMoveResource}
+          onPlaceResource={handlePlaceResource}
         />
         <Inspector
           selectedResource={selectedResource}

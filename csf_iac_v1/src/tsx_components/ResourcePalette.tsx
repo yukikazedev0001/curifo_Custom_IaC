@@ -32,6 +32,12 @@ function ResourcePalette({ selectedTool, onSelectTool }: ResourcePaletteProps) {
               key={r.id}
               className={`${styles.resourceCard} ${isSelected ? styles.resourceCardSelected : ''}`}
               onClick={() => onSelectTool(r.id)}
+              draggable={true}
+              onDragStart={(e) => {
+                e.dataTransfer.setData('newResourceType', r.id);
+                e.dataTransfer.effectAllowed = 'copy';
+              }}
+              title="クリック、またはグリッドの土地へドラッグ＆ドロップして配置"
             >
               <div className={`${styles.resourceIcon} ${r.iconClass}`}>{r.label}</div>
               <div className={styles.resourceInfo}>

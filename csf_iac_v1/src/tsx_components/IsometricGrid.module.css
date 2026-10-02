@@ -91,11 +91,24 @@
   transform: translateZ(8px) !important;
 }
 
-.gridTile :global(.server-rack-wrapper) {
-  transition: transform 0.2s ease, filter 0.2s ease;
+/* ドラッグして乗っかった時の土地ハイライト */
+.gridTileDragOver {
+  background-color: #d1fae5 !important;
+  border: 2px dashed var(--accent-mint) !important;
+  transform: translateZ(12px) !important;
+  box-shadow: 0 0 16px rgba(16, 185, 129, 0.4) !important;
 }
 
-.gridTile:hover :global(.server-rack-wrapper) {
-  transform: rotateZ(45deg) rotateX(-60deg) translateY(-22px) translateZ(24px) !important;
-  filter: drop-shadow(-8px 16px 20px rgba(15, 23, 42, 0.45)) !important;
+.rackDraggable {
+  cursor: grab;
+  pointer-events: auto !important;
+}
+
+.rackDraggable:active {
+  cursor: grabbing;
+}
+
+.rackDragging {
+  opacity: 0.4;
+  transform: scale(0.95);
 }

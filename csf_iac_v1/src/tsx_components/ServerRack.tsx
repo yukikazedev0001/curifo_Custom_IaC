@@ -3,9 +3,13 @@ import styles from './ServerRack.module.css';
 interface ServerRackProps {
   type: 'ec2' | 'lambda' | 'rds' | 's3';
   name: string;
+  draggable?: boolean;
+  onDragStart?: (e: React.DragEvent) => void;
+  onDragEnd?: (e: React.DragEvent) => void;
+  isDragging?: boolean;
 }
 
-function ServerRack({ type, name }: ServerRackProps) {
+function ServerRack({ type, name, draggable, onDragStart, onDragEnd, isDragging }: ServerRackProps) {
   // リソースごとの高さ（タイルから上に伸ばすZ距離）とスロット数
   const config = {
     ec2: {
@@ -33,7 +37,16 @@ function ServerRack({ type, name }: ServerRackProps) {
   const h = config.height;
 
   return (
-    <div className={styles.rackContainer} title={name}>
+    <div
+      className={styles.rackContainer}
+      title={`${name} (ドラッグして移動可能)`}
+      draggable={draggable}
+      onDragStart={onDragStart}
+      onDragEnd={onDragEnd}
+      style={{
+        opacity: isDragging ? 0.35 : 1,
+      }}
+    >
       {/* 1. 天面 (Top Face): タイルの真上 Z={h}px に平行移動 */}
       <div
         className={`${styles.face} ${styles.faceTop}`}

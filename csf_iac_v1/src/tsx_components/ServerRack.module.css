@@ -6,8 +6,13 @@
   width: 76px;
   height: 76px;
   transform-style: preserve-3d;
-  pointer-events: none;
-  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  pointer-events: auto;
+  cursor: grab;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease;
+}
+
+.rackContainer:active {
+  cursor: grabbing;
 }
 
 /* 共通面スタイル */
