@@ -1,0 +1,77 @@
+.inspector {
+  width: 280px;
+  background-color: var(--bg-surface);
+  border-left: 1px solid var(--border-color);
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  z-index: 10;
+}
+
+.panelTitle {
+  font-size: 12px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: var(--text-secondary);
+}
+
+.inspectorSection {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.inspectorCard {
+  background-color: var(--bg-subtle);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.propRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 12px;
+}
+
+.propKey {
+  color: var(--text-secondary);
+}
+
+.propValue {
+  font-weight: 600;
+  color: var(--text-primary);
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+}
+
+.emptyState {
+  color: var(--text-muted);
+  font-size: 13px;
+  line-height: 1.6;
+  text-align: center;
+  margin-top: 40px;
+}
+
+.deleteBtn {
+  background: var(--bg-surface);
+  border: 1px solid #fecaca;
+  color: #ef4444;
+  font-size: 13px;
+  font-weight: 500;
+  padding: 8px 14px;
+  border-radius: 8px;
+  cursor: pointer;
+  margin-top: auto;
+  transition: all 0.15s ease;
+}
+
+.deleteBtn:hover {
+  background: #fef2f2;
+}

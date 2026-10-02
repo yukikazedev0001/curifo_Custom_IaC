@@ -1,0 +1,170 @@
+/* 純粋な CSS 3D サーバーラック（タイル押し出しブロック） */
+.rackContainer {
+  position: absolute;
+  top: 4px;
+  left: 4px;
+  width: 76px;
+  height: 76px;
+  transform-style: preserve-3d;
+  pointer-events: none;
+  transition: transform 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* 共通面スタイル */
+.face {
+  position: absolute;
+  box-sizing: border-box;
+  background-color: var(--bg-surface);
+  border: 1px solid #cbd5e1;
+  backface-visibility: visible;
+}
+
+/* 1. 天面 (Top Face) - タイルと同形の正方形が Z軸上空に持ち上がる */
+.faceTop {
+  width: 76px;
+  height: 76px;
+  top: 0;
+  left: 0;
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 100%);
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.8), 0 2px 8px rgba(15, 23, 42, 0.04);
+}
+
+/* 天面のリソースラベル */
+.topBadge {
+  background-color: var(--accent-light);
+  border: 1px solid var(--accent-border);
+  color: var(--accent-mint);
+  font-size: 11px;
+  font-weight: 800;
+  font-family: 'JetBrains Mono', monospace;
+  padding: 2px 8px;
+  border-radius: 4px;
+  letter-spacing: 0.05em;
+}
+
+.topStatus {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 9px;
+  font-weight: 600;
+  color: var(--text-secondary);
+}
+
+.statusDot {
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  background-color: var(--accent-mint);
+  box-shadow: 0 0 4px var(--accent-mint);
+}
+
+/* 2. 手前右側面 (Bottom辺 Y=76 から上空 +Z へ立ち上がるメインラック面) */
+.faceFront {
+  bottom: 0;
+  left: 0;
+  width: 76px;
+  transform-origin: bottom center;
+  transform: rotateX(-90deg); /* 👈 上空 +Z に直立 */
+  background: linear-gradient(180deg, #ffffff 0%, #f8fafc 100%);
+  border-top: 1px solid #cbd5e1;
+  border-left: 1px solid #cbd5e1;
+  border-right: 1px solid #cbd5e1;
+  display: flex;
+  flex-direction: column;
+  padding: 6px 8px;
+  gap: 4px;
+}
+
+/* 手前右側面のラックスロット群 */
+.slotList {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.slotItem {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 3px;
+  padding: 2px 4px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.03);
+}
+
+.slotVent {
+  height: 2px;
+  width: 32px;
+  background: repeating-linear-gradient(
+    90deg,
+    #cbd5e1,
+    #cbd5e1 2px,
+    transparent 2px,
+    transparent 4px
+  );
+}
+
+.slotLed {
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background-color: var(--accent-mint);
+  animation: ledPulse 1.4s infinite alternate;
+}
+
+@keyframes ledPulse {
+  0% { opacity: 0.3; }
+  100% { opacity: 1; box-shadow: 0 0 4px var(--accent-mint); }
+}
+
+/* 3. 手前左側面 (Left辺 X=0 から上空 +Z へ立ち上がるサイドパネル) */
+.faceLeft {
+  top: 0;
+  left: 0;
+  height: 76px;
+  transform-origin: left center;
+  transform: rotateY(-90deg); /* 👈 上空 +Z に直立 */
+  background: linear-gradient(180deg, #f8fafc 0%, #edf2f7 100%);
+  border-top: 1px solid #cbd5e1;
+  border-left: 1px solid #cbd5e1;
+  border-right: 1px solid #cbd5e1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
+  padding: 6px;
+}
+
+.sideGroove {
+  height: 2px;
+  background-color: #cbd5e1;
+  border-radius: 1px;
+}
+
+/* 4. 奥右面 (Right辺 X=76 から上空 +Z へ立ち上がる面) */
+.faceRight {
+  top: 0;
+  right: 0;
+  height: 76px;
+  transform-origin: right center;
+  transform: rotateY(90deg); /* 👈 上空 +Z に直立 */
+  background-color: #e2e8f0;
+}
+
+/* 5. 奥左面 (Top辺 Y=0 から上空 +Z へ立ち上がる面) */
+.faceBack {
+  top: 0;
+  left: 0;
+  width: 76px;
+  transform-origin: top center;
+  transform: rotateX(90deg); /* 👈 上空 +Z に直立 */
+  background-color: #cbd5e1;
+}

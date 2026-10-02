@@ -1,0 +1,101 @@
+.gridViewport {
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #f8fafc;
+  background-image: radial-gradient(#cbd5e1 1px, transparent 1px);
+  background-size: 24px 24px;
+  overflow: hidden;
+  perspective: none;
+}
+
+.viewportControls {
+  position: absolute;
+  top: 16px;
+  left: 16px;
+  background: var(--bg-surface);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 4px;
+  display: flex;
+  gap: 4px;
+  box-shadow: var(--shadow-sm);
+  z-index: 5;
+}
+
+.controlBtn {
+  width: 30px;
+  height: 30px;
+  border: none;
+  background: transparent;
+  border-radius: 6px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-secondary);
+  font-weight: 600;
+}
+
+.controlBtn:hover {
+  background: var(--bg-subtle);
+  color: var(--text-primary);
+}
+
+.isometricStage {
+  transform: rotateX(60deg) rotateZ(-45deg);
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease;
+}
+
+.gridBoard {
+  display: grid;
+  grid-template-columns: repeat(6, 84px);
+  grid-template-rows: repeat(6, 84px);
+  gap: 4px;
+  background: #cbd5e1;
+  padding: 16px;
+  border-radius: 16px;
+  box-shadow: var(--shadow-isometric);
+  transform-style: preserve-3d;
+  border: 2px solid #94a3b8;
+}
+
+.gridTile {
+  width: 84px;
+  height: 84px;
+  background-color: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 8px;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transform-style: preserve-3d;
+}
+
+.gridTile:hover {
+  background-color: var(--accent-light);
+  border-color: var(--accent-border);
+  transform: translateZ(8px);
+  box-shadow: 0 10px 20px rgba(16, 185, 129, 0.2);
+}
+
+.gridTileSelected {
+  background-color: #d1fae5 !important;
+  border-color: var(--accent-mint) !important;
+  transform: translateZ(8px) !important;
+}
+
+.gridTile :global(.server-rack-wrapper) {
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.gridTile:hover :global(.server-rack-wrapper) {
+  transform: rotateZ(45deg) rotateX(-60deg) translateY(-22px) translateZ(24px) !important;
+  filter: drop-shadow(-8px 16px 20px rgba(15, 23, 42, 0.45)) !important;
+}

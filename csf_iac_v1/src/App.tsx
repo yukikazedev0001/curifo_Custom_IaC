@@ -1,122 +1,75 @@
-import { useState } from 'react'
-import heroImg from './assets/hero.png'
-import reactLogo from './assets/react.svg'
-import viteLogo from './assets/vite.svg'
-import './App.css'
+import { useState } from 'react';
+import Header from './tsx_components/Header';
+import ResourcePalette from './tsx_components/ResourcePalette';
+import IsometricGrid from './tsx_components/IsometricGrid';
+import Inspector from './tsx_components/Inspector';
 
-function App() {
-  const [count, setCount] = useState(0)
-
-  return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button
-          type="button"
-          className="counter"
-          onClick={() => setCount((count) => count + 1)}
-        >
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
-            <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
-              </a>
-            </li>
-            <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
-              </a>
-            </li>
-          </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg
-                  className="button-icon"
-                  role="presentation"
-                  aria-hidden="true"
-                >
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
-
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
-  )
+export interface PlacedResource {
+  id: string;
+  tileIndex: number;
+  type: 'ec2' | 'lambda' | 'rds' | 's3';
+  name: string;
 }
 
-export default App
+function App() {
+  // 初期リソースのサンプル配置
+  const [resources, setResources] = useState<PlacedResource[]>([
+    { id: 'res-1', tileIndex: 7, type: 'ec2', name: 'Web-Server-01 (EC2)' },
+    { id: 'res-2', tileIndex: 14, type: 'lambda', name: 'Auth-Function (Lambda)' },
+    { id: 'res-3', tileIndex: 21, type: 'rds', name: 'Primary-DB (PostgreSQL)' },
+  ]);
+
+  const [selectedTool, setSelectedTool] = useState<string | null>(null);
+  const [selectedTile, setSelectedTile] = useState<number | null>(7);
+
+  // タイルクリック時の処理
+  const handleTileClick = (tileIndex: number) => {
+    setSelectedTile(tileIndex);
+
+    // パレットでツールが選択されていれば配置
+    if (selectedTool) {
+      const existing = resources.find((r) => r.tileIndex === tileIndex);
+      if (!existing) {
+        const newResource: PlacedResource = {
+          id: `res-${Date.now()}`,
+          tileIndex,
+          type: selectedTool as 'ec2' | 'lambda' | 'rds' | 's3',
+          name: `${selectedTool.toUpperCase()}-${Math.floor(Math.random() * 900 + 100)}`,
+        };
+        setResources((prev) => [...prev, newResource]);
+      }
+      setSelectedTool(null); // 配置完了後はツール解除
+    }
+  };
+
+  // リソース削除
+  const handleRemoveResource = (id: string) => {
+    setResources((prev) => prev.filter((r) => r.id !== id));
+  };
+
+  const selectedResource = resources.find((r) => r.tileIndex === selectedTile) || null;
+
+  return (
+    <div className="app-container">
+      <Header />
+      <div className="workspace">
+        <ResourcePalette
+          selectedTool={selectedTool}
+          onSelectTool={(toolId) => setSelectedTool(selectedTool === toolId ? null : toolId)}
+        />
+        <IsometricGrid
+          resources={resources}
+          selectedTile={selectedTile}
+          onTileClick={handleTileClick}
+        />
+        <Inspector
+          selectedResource={selectedResource}
+          selectedTile={selectedTile}
+          onRemoveResource={handleRemoveResource}
+        />
+      </div>
+    </div>
+  );
+}
+
+export default App;
